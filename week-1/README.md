@@ -20,7 +20,8 @@ Groq, api.airforce, and a local Ollama model on each.
   - `persistence.py` — `save_result()`, writes each technique's run to `outputs/`.
 - `outputs/` — one JSON file per technique (prompt + responses from all three
   models), written when you run the notebook — durable evidence of a run that
-  doesn't require re-executing the notebook to inspect.
+  doesn't require re-executing the notebook to inspect. [`comparison.md`](./outputs/comparison.md)
+  summarizes the generalized findings across techniques from an actual run.
 
 ## Setup
 

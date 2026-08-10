@@ -1,0 +1,7 @@
+{
+  "technique": "07_prompt_chaining",
+  "saved_at": "2026-08-10T11:54:00.261688+00:00",
+  "source_text": "Acme Robotics today announced the general availability of its new warehouse picking robot, Falcon-2. Falcon-2 can identify and pick over 1,200 SKUs per hour, a 40% improvement over the previous generation, while using 25% less power thanks to a redesigned battery management system. The company says early customers have cut picking errors by more than half. Falcon-2 ships starting next quarter, with pricing available on request.",
+  "summary": "Acme Robotics has announced the general availability of its new warehouse picking robot, Falcon-2, which can identify and pick over 1,200 SKUs per hour with improved efficiency and reduced power consumption. The Falcon-2 is expected to ship next quarter and has already shown promising results with early customers, who have reported a reduction in picking errors of more than half.",
+  "tweet": "\"Meet Falcon-2! Acme's new warehouse robot picks 1,200+ SKUs/hour with reduced errors & power use #RoboticsInLogistics #WarehouseAutomation\""
+}

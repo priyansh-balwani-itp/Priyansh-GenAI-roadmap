@@ -1,6 +1,8 @@
+import time
+
 import ollama
 from groq import Groq
-from openai import OpenAI
+from openai import APIStatusError, OpenAI
 
 from .config import (
     AIRFORCE_API_KEY,
@@ -12,16 +14,29 @@ from .config import (
 )
 
 groq_client = Groq(api_key=GROQ_API_KEY)
-airforce_client = OpenAI(api_key=AIRFORCE_API_KEY, base_url=AIRFORCE_BASE_URL)
+# max_retries=0: we handle 429 backoff ourselves, using the wait time airforce reports,
+# instead of the SDK's default retry schedule which is too short for a 1-request/minute plan.
+airforce_client = OpenAI(api_key=AIRFORCE_API_KEY, base_url=AIRFORCE_BASE_URL, max_retries=0)
 
 
-def _ask_openai_compatible(client, model, prompt, system=None, temperature=0.7):
+def _ask_openai_compatible(client, model, prompt, system=None, temperature=0.7, max_attempts=4):
     messages = []
     if system:
         messages.append({"role": "system", "content": system})
     messages.append({"role": "user", "content": prompt})
-    response = client.chat.completions.create(model=model, messages=messages, temperature=temperature)
-    return response.choices[0].message.content
+    for attempt in range(max_attempts):
+        try:
+            response = client.chat.completions.create(model=model, messages=messages, temperature=temperature)
+            return response.choices[0].message.content
+        except APIStatusError as e:
+            if e.status_code != 429 or attempt == max_attempts - 1:
+                raise
+            wait_seconds = 30
+            try:
+                wait_seconds = e.response.json()["error"]["retry_after_seconds"]
+            except Exception:
+                pass
+            time.sleep(wait_seconds + 1)
 
 
 def ask_groq(prompt, system=None, model=None, temperature=0.7):

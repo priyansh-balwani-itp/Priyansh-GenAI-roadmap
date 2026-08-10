@@ -1,0 +1,26 @@
+{
+  "technique": "05_structured_output",
+  "saved_at": "2026-08-10T11:53:58.761953+00:00",
+  "prompt": "Extract the following fields from this email as JSON with keys: sender_name, company, requested_product, quantity, deadline.\nRespond with ONLY valid JSON, no explanation, no markdown code fences.\n\nEmail:\n\"Hi, this is Maria Chen from Nordic Retail Group. We'd like to order 500 units of the SmartLock Pro. We need them delivered by September 15th. Thanks!\"\n",
+  "responses": {
+    "Groq": "{\"sender_name\": \"Maria Chen\", \"company\": \"Nordic Retail Group\", \"requested_product\": \"SmartLock Pro\", \"quantity\": 500, \"deadline\": \"September 15th\"}",
+    "Airforce": "{\"sender_name\": \"Maria Chen\", \"company\": \"Nordic Retail Group\", \"requested_product\": \"SmartLock Pro\", \"quantity\": 500, \"deadline\": \"September 15th\"}",
+    "Ollama": "```\n{\n    \"sender_name\": \"Maria Chen\",\n    \"company\": \"Nordic Retail Group\",\n    \"requested_product\": \"SmartLock Pro\",\n    \"quantity\": 500,\n    \"deadline\": \"September 15th\"\n}\n```"
+  },
+  "parsed": {
+    "Groq": {
+      "sender_name": "Maria Chen",
+      "company": "Nordic Retail Group",
+      "requested_product": "SmartLock Pro",
+      "quantity": 500,
+      "deadline": "September 15th"
+    },
+    "Airforce": {
+      "sender_name": "Maria Chen",
+      "company": "Nordic Retail Group",
+      "requested_product": "SmartLock Pro",
+      "quantity": 500,
+      "deadline": "September 15th"
+    }
+  }
+}

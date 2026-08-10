@@ -1,0 +1,10 @@
+{
+  "technique": "12_cross_model",
+  "saved_at": "2026-08-10T11:57:44.115889+00:00",
+  "prompt": "Explain what a transformer's 'attention mechanism' does, in exactly 2 sentences, for a beginner.",
+  "responses": {
+    "Groq": "The attention mechanism in a transformer is a way for the model to focus on specific parts of the input data that are most relevant to the task at hand, allowing it to weigh the importance of different elements and allocate its processing resources accordingly. By doing so, the attention mechanism enables the transformer to selectively concentrate on the most informative or useful aspects of the input, such as certain words in a sentence, and use that information to make more accurate predictions or generate more coherent text.",
+    "Airforce": "The attention mechanism in a transformer is a way for the model to focus on specific parts of the input text that are most relevant to the task at hand, rather than treating all words equally. It's like a spotlight that shines on certain words or phrases, allowing the model to weigh their importance and make more informed decisions about how to translate or process the text.",
+    "Ollama": "A transformer's \"attention mechanism\" is like a spotlight that focuses on specific parts of the input data (like words or numbers) when making predictions, rather than looking at all of it equally. This helps the model understand complex relationships between different pieces of information and decide what's most relevant to its task, improving accuracy and efficiency."
+  }
+}

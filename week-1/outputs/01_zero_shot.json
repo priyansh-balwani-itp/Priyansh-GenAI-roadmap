@@ -1,0 +1,10 @@
+{
+  "technique": "01_zero_shot",
+  "saved_at": "2026-08-10T11:47:43.010983+00:00",
+  "prompt": "Classify the sentiment of the following review as Positive, Negative, or Mixed. Respond with a single word.\n\nReview: The new update completely broke my workflow, but customer support fixed it within an hour and even followed up the next day.",
+  "responses": {
+    "Groq": "Mixed",
+    "Airforce": "Mixed.",
+    "Ollama": "Mixed"
+  }
+}

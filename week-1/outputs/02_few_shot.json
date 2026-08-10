@@ -1,0 +1,10 @@
+{
+  "technique": "02_few_shot",
+  "saved_at": "2026-08-10T11:49:20.905443+00:00",
+  "prompt": "Classify each support ticket into one category: Billing, Technical, Account, or General.\n\nTicket: \"I was charged twice for my subscription this month.\"\nCategory: Billing\n\nTicket: \"The app crashes every time I try to upload a photo.\"\nCategory: Technical\n\nTicket: \"How do I change the email linked to my account?\"\nCategory: Account\n\nTicket: \"Do you have a mobile app for iOS?\"\nCategory: General\n\nTicket: \"My invoice shows a $15 charge I don't recognize.\"\nCategory:",
+  "responses": {
+    "Groq": "The category for the ticket \"My invoice shows a $15 charge I don't recognize\" is: Billing.",
+    "Airforce": "Category: Billing\n\nThe ticket is related to a specific charge on an invoice, which falls under billing inquiries or issues.",
+    "Ollama": "Billing"
+  }
+}

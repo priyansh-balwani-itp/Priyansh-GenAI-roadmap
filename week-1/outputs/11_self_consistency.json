@@ -1,0 +1,23 @@
+{
+  "technique": "11_self_consistency",
+  "saved_at": "2026-08-10T11:57:23.624486+00:00",
+  "question": "If a train leaves at 3:15pm and travels for 2 hours 40 minutes, what time does it arrive?",
+  "samples": [
+    "To find the arrival time, we need to add the travel time to the departure time. \n\nFirst, convert the travel time to just hours and minutes: 2 hours 40 minutes.\nNext, add this to the departure time: 3:15 pm + 2 hours = 5:15 pm.\nThen, add the remaining 40 minutes: 5:15 pm + 40 minutes = 5:55 pm.\n\nAnswer: 5:55 PM",
+    "To find the arrival time, first convert the travel time to just hours and minutes. The travel time is 2 hours 40 minutes. \n\nNext, add this travel time to the initial departure time. The departure time is 3:15pm. \n\nAdding 2 hours to 3:15pm results in 5:15pm. Then, adding the remaining 40 minutes results in 5:55pm.\n\nAnswer: 5:55 PM",
+    "To find the arrival time, we need to add the travel time to the departure time. \nThe departure time is 3:15pm. \nThe travel time is 2 hours 40 minutes. \n\nFirst, add 2 hours to 3:15pm: 3:15pm + 2 hours = 5:15pm. \nThen, add 40 minutes to 5:15pm: 5:15pm + 40 minutes = 5:55pm.\n\nAnswer: 5:55 PM",
+    "To find the arrival time, we need to add the travel time to the initial departure time. \n\nThe train leaves at 3:15pm and travels for 2 hours 40 minutes. \n\nFirst, we add 2 hours to 3:15pm, which brings us to 5:15pm. \n\nThen, we add the remaining 40 minutes to 5:15pm. \n\n5:15pm + 40 minutes = 5:55pm.\n\nAnswer: 5:55 PM",
+    "To find the arrival time, we need to add the travel time to the departure time. \n\nThe departure time is 3:15pm. \nThe travel time is 2 hours 40 minutes. \n\nFirst, we add 2 hours to 3:15pm, which brings us to 5:15pm. \nThen, we add 40 minutes to 5:15pm, which brings us to 5:55pm.\n\nAnswer: 5:55 PM"
+  ],
+  "answers": [
+    "5:55 PM",
+    "5:55 PM",
+    "5:55 PM",
+    "5:55 PM",
+    "5:55 PM"
+  ],
+  "distribution": {
+    "5:55 PM": 5
+  },
+  "majority": "5:55 PM"
+}
