@@ -2,7 +2,7 @@
 
 GenAI Roadmap Week 1 mini-project: 12 prompt engineering techniques applied to text
 classification, summarization, code generation, and data extraction, comparing
-OpenAI GPT, Anthropic Claude, and a local Ollama model on each.
+Groq, api.airforce, and a local Ollama model on each.
 
 ## Structure
 
@@ -12,7 +12,7 @@ OpenAI GPT, Anthropic Claude, and a local Ollama model on each.
   multi-step techniques, small template functions). No API or orchestration code.
 - `src/` — reusable logic, independent of any specific prompt:
   - `config.py` — loads API keys / settings from `.env`.
-  - `model_clients.py` — `ask_gpt`, `ask_claude`, `ask_ollama`, `compare_models`, `show`.
+  - `model_clients.py` — `ask_groq`, `ask_airforce`, `ask_ollama`, `compare_models`, `show`.
   - `safe_eval.py` — restricted arithmetic evaluator used by the ReAct loop.
   - `techniques.py` — multi-step procedures (ReAct, prompt chaining, reflection,
     self-consistency); each takes prompts as arguments instead of importing them,
@@ -25,7 +25,9 @@ OpenAI GPT, Anthropic Claude, and a local Ollama model on each.
 ## Setup
 
 1. `pip install -r requirements.txt`
-2. Copy `.env.example` to `.env` and fill in `OPENAI_API_KEY` and `ANTHROPIC_API_KEY`.
+2. Copy `.env.example` to `.env` and fill in `GROQ_API_KEY` and `AIRFORCE_API_KEY`.
+   `AIRFORCE_BASE_URL` and the default models are already set; override them in
+   `.env` if either provider's docs or model list change.
 3. Install [Ollama](https://ollama.ai), run `ollama serve`, then `ollama pull llama3.1`
    (or set `OLLAMA_MODEL` in `.env` to whichever model you pulled instead).
 4. Open `prompt_engineering_portfolio.ipynb` from within this folder (so `prompts`
