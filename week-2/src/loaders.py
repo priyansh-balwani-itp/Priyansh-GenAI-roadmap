@@ -10,7 +10,7 @@ from .config import CHUNK_OVERLAP, CHUNK_SIZE
 def load_pdf(path):
     """One Document per page, with citation-ready metadata.
 
-    PyPDFLoader's own `page` is 0-indexed and `source` is an absolute path — neither is
+    PyPDFLoader's own `page` is 0-indexed and `source` is an absolute path - neither is
     what you want to show a user, so both are normalized here rather than at display time.
     """
     path = Path(path)

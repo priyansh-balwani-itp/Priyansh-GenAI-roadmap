@@ -2,7 +2,7 @@
 question that stands on its own.
 
 This is what makes conversation memory actually work in RAG. The retriever embeds the
-question and nothing else, so "what about the second one?" embeds to noise — the vector
+question and nothing else, so "what about the second one?" embeds to noise - the vector
 has no idea what "one" refers to. Rewriting it against the history into "what are the
 limitations of the multi-head attention mechanism?" gives the retriever something with
 real semantic content to match.

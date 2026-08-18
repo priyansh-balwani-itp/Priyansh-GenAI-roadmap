@@ -23,7 +23,7 @@ def similarity_search(vectorstore, query, k=None):
 
 
 def mmr_search(vectorstore, query, k=None, fetch_k=None, lambda_mult=None):
-    """Maximal Marginal Relevance — relevance discounted by redundancy.
+    """Maximal Marginal Relevance - relevance discounted by redundancy.
 
     Pulls `fetch_k` candidates, then picks `k` of them greedily: each pick maximizes
     lambda * (similarity to query) - (1 - lambda) * (max similarity to anything already
@@ -41,7 +41,7 @@ def mmr_search(vectorstore, query, k=None, fetch_k=None, lambda_mult=None):
 def hybrid_search(vectorstore, query, k=None, fetch_k=None, bm25_retriever=None):
     """Dense + sparse retrieval, combined by reciprocal rank fusion.
 
-    Embeddings match meaning but miss rare literal tokens — an error code, a part number,
+    Embeddings match meaning but miss rare literal tokens - an error code, a part number,
     an unusual surname all embed to something generic. BM25 matches those exactly but is
     blind to paraphrase. Running both and fusing the rankings covers each one's blind spot.
     """
@@ -79,7 +79,7 @@ def reciprocal_rank_fusion(rankings, k=60):
 def fetch_all_documents(vectorstore):
     """Pull the whole collection back out of Chroma as Documents.
 
-    BM25 is an in-memory index over the full corpus — unlike the vector store, it cannot
+    BM25 is an in-memory index over the full corpus - unlike the vector store, it cannot
     be queried incrementally. Fine at this scale; a larger corpus would use a search
     engine (Elasticsearch, OpenSearch) for the sparse half instead.
     """
@@ -103,7 +103,7 @@ def build_bm25(documents, k=None):
 def rerank(llm, query, documents, top_n=None):
     """Re-score candidates with the LLM and keep the best `top_n`.
 
-    Degrades to the original order if the model returns something unparseable — a
+    Degrades to the original order if the model returns something unparseable - a
     malformed score list is not a reason to fail a user's question.
     """
     from prompts.rerank import RERANK_PROMPT, format_candidates
@@ -143,7 +143,7 @@ def retrieve(vectorstore, query, strategy=None, k=None, llm=None, use_reranker=N
     """Single entry point the chain calls; picks a strategy and optionally re-ranks.
 
     With re-ranking on, retrieval widens to `fetch_k` first and the re-ranker narrows
-    back down to `k` — otherwise there would be nothing for it to choose between.
+    back down to `k` - otherwise there would be nothing for it to choose between.
     """
     strategy = (strategy or RETRIEVAL_STRATEGY).lower()
     k = k or TOP_K

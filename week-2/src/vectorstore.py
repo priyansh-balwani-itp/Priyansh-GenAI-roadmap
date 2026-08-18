@@ -9,7 +9,7 @@ from .embeddings import get_embeddings
 def get_vectorstore(persist_directory=None, collection_name=None, embeddings=None):
     """Open (or create) the persistent Chroma collection.
 
-    Chroma writes to disk, so an ingest survives a restart of the app — the Streamlit UI
+    Chroma writes to disk, so an ingest survives a restart of the app - the Streamlit UI
     reconnects to whatever was indexed previously instead of re-embedding on every launch.
     """
     return Chroma(
@@ -32,7 +32,7 @@ def count(vectorstore):
 
 
 def list_sources(vectorstore):
-    """Distinct filenames currently indexed — what the UI shows as the knowledge base."""
+    """Distinct filenames currently indexed - what the UI shows as the knowledge base."""
     metadatas = vectorstore._collection.get(include=["metadatas"])["metadatas"]
     return sorted({m.get("source", "unknown") for m in metadatas})
 
@@ -56,6 +56,6 @@ def clear_collection(vectorstore):
 
 
 def reset(persist_directory=None):
-    """Delete the store from disk. Only safe when no client has it open — see `clear_collection`."""
+    """Delete the store from disk. Only safe when no client has it open - see `clear_collection`."""
     directory = persist_directory or CHROMA_DIR
     shutil.rmtree(directory, ignore_errors=True)

@@ -7,8 +7,8 @@ from .config import EMBEDDING_BACKEND, EMBEDDING_MODEL
 def get_embeddings(backend=None, model=None):
     """Embedding model, swappable so you can compare retrieval quality across encoders.
 
-    Both backends return LangChain `Embeddings`, so everything downstream — Chroma,
-    the retrievers, the chain — is unaffected by which one you pick. The only rule is
+    Both backends return LangChain `Embeddings`, so everything downstream - Chroma,
+    the retrievers, the chain - is unaffected by which one you pick. The only rule is
     that a collection must be queried with the same model it was indexed with; changing
     `EMBEDDING_MODEL` means re-running the ingest.
     """

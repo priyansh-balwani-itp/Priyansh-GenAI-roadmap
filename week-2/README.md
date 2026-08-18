@@ -1,11 +1,11 @@
-# Week 2 — RAG Chatbot
+# Week 2 - RAG Chatbot
 
 GenAI Roadmap Week 2 mini-project: a conversational Q&A system over your own PDFs, built
 with **LangChain + ChromaDB + Groq**. Upload documents in the browser, ask questions, get
 answers cited back to the page they came from. Follow-up questions work, because the
 pipeline rewrites them against the conversation before it retrieves.
 
-Nothing about the corpus is hardcoded — the knowledge base is whatever you upload, so the
+Nothing about the corpus is hardcoded - the knowledge base is whatever you upload, so the
 same app serves a company handbook, a textbook, or a stack of research papers.
 
 ## Pipeline
@@ -23,38 +23,38 @@ question + chat history ──► standalone question ─┤            (query t
 ```
 
 The rewrite step is what makes it conversational. A retriever embeds the question and
-nothing else, so a follow-up like *"why is that?"* embeds to noise — the vector carries no
+nothing else, so a follow-up like *"why is that?"* embeds to noise - the vector carries no
 record of what "that" referred to. Resolving it against the history first is the difference
 between a chatbot and a search box that forgets you between queries.
 
 ## Structure
 
-- **[`app.py`](./app.py)** — Streamlit UI: PDF uploader, chat, streamed answers, expandable
+- **[`app.py`](./app.py)** - Streamlit UI: PDF uploader, chat, streamed answers, expandable
   source excerpts, live retrieval settings. Presentation and session state only.
-- **[`ingest.py`](./ingest.py)** — CLI for bulk-indexing a folder and for rebuilding the
+- **[`ingest.py`](./ingest.py)** - CLI for bulk-indexing a folder and for rebuilding the
   index after changing chunking or the embedding model.
-- **[`rag_pipeline.ipynb`](./rag_pipeline.ipynb)** — the pipeline opened up stage by stage:
+- **[`rag_pipeline.ipynb`](./rag_pipeline.ipynb)** - the pipeline opened up stage by stage:
   chunk-size trade-offs, what an embedding actually is, the three retrieval strategies
   compared side by side, re-ranking, the exact prompt sent to the model, and the follow-up
   question retrieved with and without the rewrite.
-- **[`prompts/`](./prompts)** — one module per prompt, holding the text and the reasoning
+- **[`prompts/`](./prompts)** - one module per prompt, holding the text and the reasoning
   behind it. No API or orchestration code.
-  - `condense_question.py` — rewrites a follow-up into a standalone query.
-  - `answer.py` — grounding rules and the numbered-context format that makes citation possible.
-  - `rerank.py` — relevance scoring rubric for the optional re-ranker.
-- **[`src/`](./src)** — the pipeline, each stage independently testable:
-  - `config.py` — every tunable, read from `.env`.
-  - `llm.py` / `embeddings.py` — the two models, both swappable behind one function.
-  - `loaders.py` — PDF loading and chunking, with citation-ready metadata and content-hash ids.
-  - `vectorstore.py` — Chroma collection: open, add, list, delete by source, reset.
-  - `retrieval.py` — similarity, MMR, hybrid (BM25 + dense fused by RRF), LLM re-ranking.
-  - `chain.py` — the LCEL chain and `RAGChatbot`, the object the UI drives.
-  - `history.py` — conversation memory as a windowed message list.
-  - `ingest.py` — PDF → chunks → Chroma, shared by the CLI and the uploader.
-- **`data/pdfs/`** — optional drop folder for CLI ingestion. Gitignored: your documents are
+  - `condense_question.py` - rewrites a follow-up into a standalone query.
+  - `answer.py` - grounding rules and the numbered-context format that makes citation possible.
+  - `rerank.py` - relevance scoring rubric for the optional re-ranker.
+- **[`src/`](./src)** - the pipeline, each stage independently testable:
+  - `config.py` - every tunable, read from `.env`.
+  - `llm.py` / `embeddings.py` - the two models, both swappable behind one function.
+  - `loaders.py` - PDF loading and chunking, with citation-ready metadata and content-hash ids.
+  - `vectorstore.py` - Chroma collection: open, add, list, delete by source, reset.
+  - `retrieval.py` - similarity, MMR, hybrid (BM25 + dense fused by RRF), LLM re-ranking.
+  - `chain.py` - the LCEL chain and `RAGChatbot`, the object the UI drives.
+  - `history.py` - conversation memory as a windowed message list.
+  - `ingest.py` - PDF → chunks → Chroma, shared by the CLI and the uploader.
+- **`data/pdfs/`** - optional drop folder for CLI ingestion. Gitignored: your documents are
   yours.
-- **`vectorstore/`** — the persisted Chroma index. Gitignored and fully regenerable.
-- **[`outputs/`](./outputs)** — saved notebook runs.
+- **`vectorstore/`** - the persisted Chroma index. Gitignored and fully regenerable.
+- **[`outputs/`](./outputs)** - saved notebook runs.
 
 ## Setup
 
@@ -65,8 +65,8 @@ between a chatbot and a search box that forgets you between queries.
 3. `streamlit run app.py`
 4. Upload PDFs in the sidebar, then ask away.
 
-No OpenAI key needed anywhere. Embeddings run locally through fastembed — an ONNX model,
-no torch, no second API account — and Groq handles generation, which is also what Week 1
+No OpenAI key needed anywhere. Embeddings run locally through fastembed - an ONNX model,
+no torch, no second API account - and Groq handles generation, which is also what Week 1
 used.
 
 To index a folder instead of uploading:
@@ -85,8 +85,8 @@ are also exposed live in the sidebar.
 
 | Variable | Default | What it changes |
 | --- | --- | --- |
-| `GROQ_MODEL` | `llama-3.3-70b-versatile` | Generation model. |
-| `LLM_TEMPERATURE` | `0.1` | Low on purpose — answering from retrieved text should not be creative. |
+| `GROQ_MODEL` | `openai/gpt-oss-120b` | Generation model. Groq retires ids periodically - check [its model list](https://console.groq.com/docs/models). |
+| `LLM_TEMPERATURE` | `0.1` | Low on purpose - answering from retrieved text should not be creative. |
 | `EMBEDDING_BACKEND` | `fastembed` | `fastembed` (local ONNX) or `huggingface` (sentence-transformers). |
 | `EMBEDDING_MODEL` | `BAAI/bge-small-en-v1.5` | Changing it requires `python ingest.py --reset`. |
 | `CHUNK_SIZE` / `CHUNK_OVERLAP` | `1000` / `150` | Smaller = sharper embeddings, more fragmented context. |
@@ -115,7 +115,7 @@ are also exposed live in the sidebar.
 1. Create a Space at [huggingface.co/new-space](https://huggingface.co/new-space), SDK
    **Streamlit**.
 2. Push `app.py`, `ingest.py`, `requirements.txt`, `src/`, and `prompts/`. Leave
-   `vectorstore/` and `data/` out — documents get uploaded through the UI.
+   `vectorstore/` and `data/` out - documents get uploaded through the UI.
 3. Add `GROQ_API_KEY` under **Settings → Variables and secrets** as a *secret*, not a
    variable.
 4. Prepend the Space header to the README that ships with the Space:
@@ -131,7 +131,7 @@ are also exposed live in the sidebar.
 
 One caveat worth knowing before you rely on it: a free Space has ephemeral storage, so the
 Chroma index is wiped when the Space sleeps or restarts and visitors re-upload their PDFs.
-That is acceptable for a demo — and arguably correct, since one shared persistent index
+That is acceptable for a demo - and arguably correct, since one shared persistent index
 would mean every visitor could query every other visitor's documents. For a real
 deployment, attach persistent storage and scope collections per user.
 
@@ -144,5 +144,5 @@ rest of the pipeline.
 
 The chain is composed from LCEL primitives rather than a prebuilt constructor like
 `create_retrieval_chain`. Same composition, but every stage stays visible and individually
-testable — and it does not break when the convenience wrappers get reshuffled between
+testable - and it does not break when the convenience wrappers get reshuffled between
 LangChain releases.

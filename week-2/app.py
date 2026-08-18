@@ -1,6 +1,6 @@
 """Streamlit UI for the RAG chatbot.
 
-Upload PDFs in the sidebar, ask questions in the chat. Nothing is baked in — the
+Upload PDFs in the sidebar, ask questions in the chat. Nothing is baked in - the
 knowledge base is whatever the user indexes, so the same app works for a company
 handbook, a textbook, or a stack of research papers.
 
@@ -124,7 +124,7 @@ def upload_key():
 
 
 def clear_all(vectorstore, chatbot):
-    """Empty the index in place rather than deleting it from disk — the client is still open."""
+    """Empty the index in place rather than deleting it from disk - the client is still open."""
     clear_collection(vectorstore)
     chatbot.invalidate()
     st.session_state["messages"] = []
@@ -143,7 +143,7 @@ def render_sources(sources):
     """Show the exact excerpts behind an answer, so a citation can be checked rather than trusted."""
     with st.expander(f"Sources ({len(sources)})"):
         for i, source in enumerate(sources, start=1):
-            st.markdown(f"**[{i}] {source['source']} — page {source['page']}**")
+            st.markdown(f"**[{i}] {source['source']} - page {source['page']}**")
             st.caption(source["excerpt"])
 
 
@@ -159,7 +159,7 @@ def handle_input(chatbot, disabled):
     with st.chat_message("user"):
         st.markdown(question)
 
-    # History excludes the question just appended — the chain takes it separately.
+    # History excludes the question just appended - the chain takes it separately.
     history = to_messages(st.session_state["messages"][:-1])
 
     with st.chat_message("assistant"):

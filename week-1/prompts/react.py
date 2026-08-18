@@ -7,7 +7,7 @@ INSTRUCTIONS = """Answer the question using this exact format:
 
 Thought: reason about what to do next
 Action: calculator[expression]
-Observation: (this will be filled in by the system — do not write it yourself)
+Observation: (this will be filled in by the system - do not write it yourself)
 ... repeat Thought/Action/Observation as needed ...
 Final Answer: the answer
 

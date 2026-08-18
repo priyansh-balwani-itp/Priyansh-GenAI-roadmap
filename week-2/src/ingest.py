@@ -34,7 +34,7 @@ def ingest_uploads(uploads, vectorstore=None, **kwargs):
     """Index in-memory uploads given as `(filename, bytes)` pairs.
 
     PyPDFLoader reads from a path, so the bytes are staged in a temp directory that is
-    removed as soon as the pages are parsed — nothing the user uploads is written into
+    removed as soon as the pages are parsed - nothing the user uploads is written into
     the repo. The original filename is preserved on the way through, because it is what
     citations display.
     """

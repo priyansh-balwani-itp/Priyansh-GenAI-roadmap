@@ -1,4 +1,4 @@
-# Week 1 — Prompt Engineering Portfolio
+# Week 1 - Prompt Engineering Portfolio
 
 GenAI Roadmap Week 1 mini-project: 12 prompt engineering techniques applied to text
 classification, summarization, code generation, and data extraction, comparing
@@ -6,20 +6,20 @@ Groq, api.airforce, and a local Ollama model on each.
 
 ## Structure
 
-- `prompt_engineering_portfolio.ipynb` — runs each technique and displays results.
+- `prompt_engineering_portfolio.ipynb` - runs each technique and displays results.
   Thin by design: it wires prompts and logic together, it doesn't contain either.
-- `prompts/` — one module per technique holding the actual prompt text (and, for
+- `prompts/` - one module per technique holding the actual prompt text (and, for
   multi-step techniques, small template functions). No API or orchestration code.
-- `src/` — reusable logic, independent of any specific prompt:
-  - `config.py` — loads API keys / settings from `.env`.
-  - `model_clients.py` — `ask_groq`, `ask_airforce`, `ask_ollama`, `compare_models`, `show`.
-  - `safe_eval.py` — restricted arithmetic evaluator used by the ReAct loop.
-  - `techniques.py` — multi-step procedures (ReAct, prompt chaining, reflection,
+- `src/` - reusable logic, independent of any specific prompt:
+  - `config.py` - loads API keys / settings from `.env`.
+  - `model_clients.py` - `ask_groq`, `ask_airforce`, `ask_ollama`, `compare_models`, `show`.
+  - `safe_eval.py` - restricted arithmetic evaluator used by the ReAct loop.
+  - `techniques.py` - multi-step procedures (ReAct, prompt chaining, reflection,
     self-consistency); each takes prompts as arguments instead of importing them,
     so this module has no knowledge of today's specific examples.
-  - `persistence.py` — `save_result()`, writes each technique's run to `outputs/`.
-- `outputs/` — one JSON file per technique (prompt + responses from all three
-  models), written when you run the notebook — durable evidence of a run that
+  - `persistence.py` - `save_result()`, writes each technique's run to `outputs/`.
+- `outputs/` - one JSON file per technique (prompt + responses from all three
+  models), written when you run the notebook - durable evidence of a run that
   doesn't require re-executing the notebook to inspect. [`comparison.md`](./outputs/comparison.md)
   summarizes the generalized findings across techniques from an actual run.
 

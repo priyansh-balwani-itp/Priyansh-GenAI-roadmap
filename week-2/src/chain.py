@@ -7,7 +7,7 @@
         -> generate a cited answer
 
 Written with LCEL primitives rather than a prebuilt chain constructor. It is the same
-composition either way, but here every stage is visible and individually testable — and
+composition either way, but here every stage is visible and individually testable - and
 it does not break when the convenience wrappers get reshuffled between LangChain releases.
 """
 
@@ -111,7 +111,7 @@ def build_rag_chain(vectorstore, llm=None, **retrieval_options):
 class RAGChatbot:
     """Stateless-per-call wrapper around the chain, with the bits an interactive UI needs.
 
-    Holds no conversation state of its own — history is passed in on every call, so one
+    Holds no conversation state of its own - history is passed in on every call, so one
     instance can serve several sessions. What it does hold is the BM25 index, which is
     expensive to rebuild and belongs to the corpus rather than to any one conversation.
     """
@@ -163,7 +163,7 @@ class RAGChatbot:
         """Yield `(documents, token_generator)`.
 
         Sources come back before the first token so the UI can render citations while the
-        answer is still being written — retrieval is already finished by then anyway.
+        answer is still being written - retrieval is already finished by then anyway.
         """
         standalone, documents = self.retrieve(question, chat_history)
         if not documents:

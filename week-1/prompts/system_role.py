@@ -6,8 +6,8 @@ SYSTEM = (
 ARTICLE = (
     "Retrieval-Augmented Generation (RAG) is a technique that lets a language model answer questions "
     "using information it was never trained on. Instead of relying only on what the model memorized "
-    "during training, the system first searches an external knowledge base — usually a vector database "
-    "of document embeddings — for the passages most relevant to the user's query. Those passages are "
+    "during training, the system first searches an external knowledge base - usually a vector database "
+    "of document embeddings - for the passages most relevant to the user's query. Those passages are "
     "then inserted into the prompt as context before the model generates its answer. This approach "
     "reduces hallucination, keeps answers grounded in a specific, updatable source of truth, and avoids "
     "the cost of retraining the model whenever the underlying data changes."

@@ -1,9 +1,9 @@
 """Re-ranking: score a candidate set for relevance before it reaches the answer prompt.
 
-Retrieval optimizes for recall — pull 20 candidates so the right chunk is somewhere in
+Retrieval optimizes for recall - pull 20 candidates so the right chunk is somewhere in
 there. Generation wants precision, because irrelevant context measurably degrades the
 answer. A re-ranker bridges the two: it reads the query and each candidate together
-(the embedding never did — it encoded them separately) and keeps only the top few.
+(the embedding never did - it encoded them separately) and keeps only the top few.
 
 Production systems use a cross-encoder for this. Scoring with the LLM costs an extra
 call but needs no additional model, which keeps this project to one provider.
@@ -33,7 +33,7 @@ RERANK_PROMPT = ChatPromptTemplate.from_messages(
 
 
 def format_candidates(documents, max_chars=600):
-    """Truncate candidates before scoring — the judgment needs the gist, not the full chunk."""
+    """Truncate candidates before scoring - the judgment needs the gist, not the full chunk."""
     blocks = []
     for i, doc in enumerate(documents, start=1):
         text = doc.page_content[:max_chars].replace("\n", " ")

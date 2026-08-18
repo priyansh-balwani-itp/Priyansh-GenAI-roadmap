@@ -9,7 +9,7 @@ WEEK_DIR = Path(__file__).resolve().parent.parent
 
 # --- Generation (Groq stands in for OpenAI; the roadmap's stack is provider-agnostic) ---
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
-# Check https://console.groq.com/docs/models before changing this — Groq decommissions
+# Check https://console.groq.com/docs/models before changing this - Groq decommissions
 # models on a rolling basis, and a retired id fails with a 404 at call time, not at import.
 GROQ_MODEL = os.getenv("GROQ_MODEL", "openai/gpt-oss-120b")
 LLM_TEMPERATURE = float(os.getenv("LLM_TEMPERATURE", "0.1"))
