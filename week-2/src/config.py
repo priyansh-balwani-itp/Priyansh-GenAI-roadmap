@@ -7,8 +7,31 @@ load_dotenv()
 
 WEEK_DIR = Path(__file__).resolve().parent.parent
 
+
+def _secret(name, default=None):
+    """Read a secret from the environment, falling back to Streamlit's secrets store.
+
+    Locally the value comes from `.env`. Streamlit Community Cloud has no `.env` and puts
+    it in `st.secrets` instead, which its docs do not promise to mirror into the
+    environment - so check both and the same code deploys unchanged.
+
+    Only genuine secrets go through this. Everything else below reads the environment
+    directly, which keeps `import streamlit` off the CLI and notebook startup path.
+    """
+    value = os.getenv(name)
+    if value is not None:
+        return value
+    try:
+        import streamlit as st
+
+        return st.secrets[name]
+    except Exception:
+        # No streamlit installed, no secrets file, or no such key - all mean "not set".
+        return default
+
+
 # --- Generation (Groq stands in for OpenAI; the roadmap's stack is provider-agnostic) ---
-GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+GROQ_API_KEY = _secret("GROQ_API_KEY")
 # Check https://console.groq.com/docs/models before changing this - Groq decommissions
 # models on a rolling basis, and a retired id fails with a 404 at call time, not at import.
 GROQ_MODEL = os.getenv("GROQ_MODEL", "openai/gpt-oss-120b")

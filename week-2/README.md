@@ -110,30 +110,44 @@ are also exposed live in the sidebar.
 | Conversation memory | `src/history.py`, `src/chain.py` |
 | Grounding / hallucination refusal | `prompts/answer.py`, notebook §10 |
 
-## Deploying to Hugging Face Spaces
+## Deploying
 
-1. Create a Space at [huggingface.co/new-space](https://huggingface.co/new-space), SDK
-   **Streamlit**.
-2. Push `app.py`, `ingest.py`, `requirements.txt`, `src/`, and `prompts/`. Leave
-   `vectorstore/` and `data/` out - documents get uploaded through the UI.
-3. Add `GROQ_API_KEY` under **Settings → Variables and secrets** as a *secret*, not a
-   variable.
-4. Prepend the Space header to the README that ships with the Space:
+**Streamlit Community Cloud**, at [share.streamlit.io](https://share.streamlit.io):
 
-   ```yaml
-   ---
-   title: RAG Chatbot
-   emoji: 📄
-   sdk: streamlit
-   app_file: app.py
-   ---
+1. Sign in with GitHub and authorize access to this repository.
+2. **New app** → pick this repo and branch, and set the main file path to
+   `week-2/app.py`. Community Cloud looks for `requirements.txt` in the entrypoint's own
+   directory before the repo root, so `week-2/requirements.txt` is found as-is.
+3. Under **Advanced settings → Secrets**, add:
+
+   ```toml
+   GROQ_API_KEY = "your-key-here"
    ```
 
-One caveat worth knowing before you rely on it: a free Space has ephemeral storage, so the
-Chroma index is wiped when the Space sleeps or restarts and visitors re-upload their PDFs.
-That is acceptable for a demo - and arguably correct, since one shared persistent index
-would mean every visitor could query every other visitor's documents. For a real
-deployment, attach persistent storage and scope collections per user.
+   `src/config.py` reads the environment first and falls back to `st.secrets`, so this
+   works without a `.env` and without code changes.
+4. Deploy. The first boot takes a few minutes while it installs dependencies and pulls the
+   embedding model.
+
+Nothing is committed that the deploy needs to exclude: `vectorstore/` and `data/pdfs/*.pdf`
+are gitignored already, and documents arrive through the uploader.
+
+### Why not Hugging Face Spaces
+
+The roadmap names HF Spaces, and that was the right call when its free tier ran Streamlit
+apps. As of August 2026 it does not: the SDK choices are Static, Gradio, and Docker, with
+*"Gradio and Docker Spaces require a paid plan"* and Static limited to HTML/JS with no
+Python process. There is no Streamlit SDK left to select. Hosting this on Spaces would mean
+a PRO subscription plus a Dockerfile, so Community Cloud is the free equivalent - and Week 4
+of the roadmap lists Railway, Render, and Modal as further alternatives.
+
+### Storage caveat
+
+Community Cloud's disk is ephemeral, so the Chroma index is wiped whenever the app sleeps
+or reboots and visitors re-upload their PDFs. That is acceptable for a demo - and arguably
+correct, since one shared persistent index would mean every visitor could query every other
+visitor's documents. For a real deployment, attach persistent storage and scope collections
+per user.
 
 ## Notes on the stack
 
