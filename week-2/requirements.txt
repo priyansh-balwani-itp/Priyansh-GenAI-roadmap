@@ -1,0 +1,15 @@
+# Verified against the versions on the right on Python 3.12.
+# The langchain-* family is capped below 1.0: the 1.0 release moved parts of the
+# legacy surface into langchain-classic, and the pins below are what this code was
+# tested on. Nothing here imports the `langchain` meta-package directly.
+langchain-core>=0.3.86,<1              # 0.3.86
+langchain-community>=0.3.31,<1         # 0.3.31  (BM25Retriever, PyPDFLoader, FastEmbedEmbeddings)
+langchain-text-splitters>=0.3.11,<1    # 0.3.11
+langchain-groq>=0.3.8,<1               # 0.3.8
+langchain-chroma>=0.2.6,<1             # 0.2.6
+chromadb>=1.5.9,<2                     # 1.5.9
+fastembed>=0.8.0                       # 0.8.0   local ONNX embeddings, no torch
+rank-bm25>=0.2.2                       # 0.2.2   sparse half of hybrid retrieval
+pypdf>=6.15.0                          # 6.15.0
+streamlit>=1.61.1                      # 1.61.1
+python-dotenv>=1.2.2                   # 1.2.2

@@ -4,3 +4,9 @@ __pycache__/
 .ipynb_checkpoints/
 venv/
 .venv/
+
+# Week 2: user-supplied documents and the index built from them. Both are
+# regenerable and personal to whoever runs the app, so neither belongs in git.
+week-2/data/pdfs/*.pdf
+week-2/vectorstore/
+.streamlit/secrets.toml
