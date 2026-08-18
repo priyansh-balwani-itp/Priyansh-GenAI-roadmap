@@ -60,6 +60,12 @@ CHROMA_DIR = Path(os.getenv("CHROMA_DIR", WEEK_DIR / "vectorstore"))
 COLLECTION_NAME = os.getenv("COLLECTION_NAME", "documents")
 PDF_DIR = Path(os.getenv("PDF_DIR", WEEK_DIR / "data" / "pdfs"))
 
+# Give every browser session its own private, in-memory index. On by default because the
+# alternative leaks: a single shared collection means anyone who opens the app can read and
+# query every document anyone else has uploaded. Set this to false only for a single-user
+# local run where you want the app to see a corpus built by `python ingest.py`.
+SESSION_ISOLATION = os.getenv("SESSION_ISOLATION", "true").lower() == "true"
+
 # --- Memory ---
 # How many prior turns are shown to the question-rewriter. Full history goes to the
 # UI; only the tail is needed to resolve "it" / "that one" in a follow-up.

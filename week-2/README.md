@@ -141,13 +141,31 @@ Python process. There is no Streamlit SDK left to select. Hosting this on Spaces
 a PRO subscription plus a Dockerfile, so Community Cloud is the free equivalent - and Week 4
 of the roadmap lists Railway, Render, and Modal as further alternatives.
 
-### Storage caveat
+### Multi-user isolation
 
-Community Cloud's disk is ephemeral, so the Chroma index is wiped whenever the app sleeps
-or reboots and visitors re-upload their PDFs. That is acceptable for a demo - and arguably
-correct, since one shared persistent index would mean every visitor could query every other
-visitor's documents. For a real deployment, attach persistent storage and scope collections
-per user.
+A deployed instance is reachable by anyone with the link, so each browser session gets its
+own Chroma collection, created in memory under a per-session id and never written to disk.
+One visitor cannot see, retrieve, or query another's uploads, and closing the tab discards
+the index.
+
+This is controlled by `SESSION_ISOLATION`, which defaults to **on**. Turning it off gives
+every visitor one shared collection - only appropriate for a single-user local run where
+you want the app to pick up a corpus built by `python ingest.py`. The sidebar states which
+mode is active, so a shared deployment cannot look private by accident.
+
+Two Streamlit details make this less obvious than it sounds, and both are easy to get
+wrong:
+
+- `st.cache_resource` is shared across **every user and session** the server handles, not
+  per session. Caching the vectorstore there hands one collection to everybody.
+  `st.session_state` is the only genuinely per-session store.
+- chromadb keeps a single in-memory system shared between clients, so two ephemeral
+  collections with the same name still see each other's documents. The collection name has
+  to be unique per session; `ephemeral=True` alone is not enough.
+
+Because the index lives in memory, it also disappears when Community Cloud puts the app to
+sleep. For a deployment that needs uploads to persist, add real authentication and key each
+user's collection to their account rather than to a session.
 
 ## Notes on the stack
 

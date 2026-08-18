@@ -10,10 +10,12 @@ Kept to presentation and session state: uploads go to `src.ingest`, questions go
 `RAGChatbot`, and this file does not know how either of them works.
 """
 
+import uuid
+
 import streamlit as st
 
 from src.chain import RAGChatbot
-from src.config import GROQ_API_KEY, GROQ_MODEL, EMBEDDING_MODEL, TOP_K
+from src.config import GROQ_API_KEY, GROQ_MODEL, EMBEDDING_MODEL, SESSION_ISOLATION, TOP_K
 from src.history import to_messages
 from src.ingest import ingest_uploads
 from src.vectorstore import clear_collection, count, delete_source, get_vectorstore, list_sources
@@ -21,15 +23,43 @@ from src.vectorstore import clear_collection, count, delete_source, get_vectorst
 st.set_page_config(page_title="RAG Chatbot", page_icon="📄", layout="wide")
 
 
-@st.cache_resource(show_spinner="Loading the vector store…")
-def load_vectorstore():
-    """One Chroma connection for the whole session; Streamlit reruns this file per interaction."""
+@st.cache_resource(show_spinner="Loading the shared knowledge base…")
+def shared_vectorstore():
+    """The one on-disk collection - used only when SESSION_ISOLATION is off.
+
+    `st.cache_resource` is shared across every user and session the server handles, which
+    is precisely what "one shared corpus" means, and precisely why it must not be the
+    default for a public deployment.
+    """
     return get_vectorstore()
 
 
-@st.cache_resource(show_spinner="Starting the chatbot…")
-def load_chatbot(_vectorstore):
-    return RAGChatbot(_vectorstore)
+def session_vectorstore():
+    """A private, in-memory collection belonging to one browser session.
+
+    `st.session_state` is the only genuinely per-session store Streamlit offers. The
+    collection name has to be unique because chromadb shares a single in-memory system
+    between clients - two ephemeral stores named the same would see each other's
+    documents. Nothing is written to disk, so nothing outlives the session.
+    """
+    if "vectorstore" not in st.session_state:
+        st.session_state["session_id"] = uuid.uuid4().hex
+        st.session_state["vectorstore"] = get_vectorstore(
+            collection_name=f"session_{st.session_state['session_id']}", ephemeral=True
+        )
+    return st.session_state["vectorstore"]
+
+
+def load_session():
+    """Resolve this session's vectorstore and chatbot.
+
+    The chatbot is per-session either way: it caches a BM25 index that has to match
+    whatever corpus this session can actually see.
+    """
+    vectorstore = session_vectorstore() if SESSION_ISOLATION else shared_vectorstore()
+    if "chatbot" not in st.session_state:
+        st.session_state["chatbot"] = RAGChatbot(vectorstore)
+    return vectorstore, st.session_state["chatbot"]
 
 
 def main():
@@ -37,8 +67,7 @@ def main():
         st.error("`GROQ_API_KEY` is not set. Copy `.env.example` to `.env` and add your key.")
         st.stop()
 
-    vectorstore = load_vectorstore()
-    chatbot = load_chatbot(vectorstore)
+    vectorstore, chatbot = load_session()
     st.session_state.setdefault("messages", [])
 
     render_sidebar(vectorstore, chatbot)
@@ -57,6 +86,16 @@ def main():
 def render_sidebar(vectorstore, chatbot):
     with st.sidebar:
         st.header("Knowledge base")
+        if SESSION_ISOLATION:
+            st.caption(
+                "Your documents are private to this browser session, held in memory only. "
+                "They are never written to the server and are gone when the session ends."
+            )
+        else:
+            st.caption(
+                ":red[Shared mode.] Every visitor reads and writes one common index - "
+                "anything you upload is visible to everyone else using this app."
+            )
 
         uploads = st.file_uploader(
             "Upload PDFs", type="pdf", accept_multiple_files=True, key=upload_key()

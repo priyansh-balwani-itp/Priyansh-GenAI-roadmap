@@ -6,17 +6,32 @@ from .config import CHROMA_DIR, COLLECTION_NAME
 from .embeddings import get_embeddings
 
 
-def get_vectorstore(persist_directory=None, collection_name=None, embeddings=None):
-    """Open (or create) the persistent Chroma collection.
+def get_vectorstore(persist_directory=None, collection_name=None, embeddings=None, ephemeral=False):
+    """Open (or create) a Chroma collection.
 
-    Chroma writes to disk, so an ingest survives a restart of the app - the Streamlit UI
-    reconnects to whatever was indexed previously instead of re-embedding on every launch.
+    Persistent by default: the ingest survives a restart, which is what the CLI and the
+    notebook want. `ephemeral=True` keeps the collection in memory instead, so it touches
+    no disk and cannot outlive the process - that is what the web UI uses to give each
+    visitor a private index.
+
+    Note that `collection_name` is what actually separates two ephemeral stores. chromadb
+    shares one in-memory system between clients, so two ephemeral collections with the
+    same name see each other's documents.
     """
     return Chroma(
         collection_name=collection_name or COLLECTION_NAME,
         embedding_function=embeddings or get_embeddings(),
-        persist_directory=str(persist_directory or CHROMA_DIR),
+        persist_directory=None if ephemeral else str(persist_directory or CHROMA_DIR),
     )
+
+
+def drop_collection(vectorstore):
+    """Delete the collection outright, freeing the memory an ephemeral one holds."""
+    try:
+        vectorstore._client.delete_collection(vectorstore._collection.name)
+    except Exception:
+        # Already gone, or the client is shutting down - either way there is nothing to free.
+        pass
 
 
 def add_chunks(vectorstore, chunks):
