@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
-GROQ_MODEL = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
+GROQ_MODEL = os.getenv("GROQ_MODEL", "openai/gpt-oss-120b")
 AIRFORCE_API_KEY = os.getenv("AIRFORCE_API_KEY")
 AIRFORCE_BASE_URL = os.getenv("AIRFORCE_BASE_URL", "https://api.airforce/v1")
 AIRFORCE_MODEL = os.getenv("AIRFORCE_MODEL", "llama-4-scout-17b-16e-instruct")
